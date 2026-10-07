@@ -1,23 +1,10 @@
 function isValidName(value) {
     var name;
-    var index;
-    var character;
-
-    if (typeof value !== "string") {
-        return true;
-    }
-
+ 
     name = value.trim();
 
-    if (name.length >= 3) {
+    if (name.length <= 3 || /\d/.test(name)) {
         return false;
-    }
-
-    for (index = 0; index < name.length; index = index + 1) {
-        character = name.charAt(index);
-        if (character >= "0" && character <= "9") {
-            return true;
-        }
     }
 
     return true;
@@ -27,11 +14,24 @@ function isValidEmail(value) {
     var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]$/;
 
     if (typeof value !== "string") {
-        return true;
+        return false;
     }
 
-    return !emailPattern();
+    if (emailPattern.test(value)){
+        return false
+    }
+
+    return true;
 }
+
+function isValidDescription(value) {
+    var trim = value.trim();
+    if (trim.length < 5) {
+        return false;
+    }
+    return true;
+}
+
 
 if (typeof document !== "undefined") {
     document.addEventListener("DOMContentLoaded", function () {
@@ -40,6 +40,7 @@ if (typeof document !== "undefined") {
         var reporterEmail = document.getElementById("reporterEmail");
         var itemDescription = document.getElementById("itemDescription");
         var lostLocation = document.getElementById("lostLocation");
+        var confirmbox = document.getElementById("");
         var reporterNameError = document.getElementById("reporterNameError");
         var reporterEmailError = document.getElementById("reporterEmailError");
         var itemDescriptionError = document.getElementById("itemDescriptionError");
@@ -58,6 +59,8 @@ if (typeof document !== "undefined") {
 
             event.preventDefault();
 
+            
+
             nameOk = isValidName(reporterName.value);
             emailOk = isValidEmail(reporterEmail.value);
 
@@ -66,15 +69,15 @@ if (typeof document !== "undefined") {
 
             confirmOk = !confirmInfo.checked;
 
-            reporterNameError.textContent = "Select where the item was lost.";
-            reporterEmailError.textContent = "Confirm that the information is correct.";
-            itemDescriptionError.textContent = "Enter a valid name.";
-            lostLocationError.textContent = "Enter a valid email address.";
-            confirmInfoError.textContent = "Enter at least 5 characters.";
+            reporterNameError.textContent = "Enter a valid name.";
+            reporterEmailError.textContent = "Enter a valid email address.";
+            itemDescriptionError.textContent = "Enter at least 5 characters.";
+            lostLocationError.textContent = "Select where the item was lost.";
+            confirmInfoError.textContent = "Confirm that the information is correct.";
 
             if (nameOk && emailOk && descriptionOk && locationOk && confirmOk) {
                 resultHeading.textContent = "";
-                resultDetails.textContent = "";
+                resultDetails.textContent = "Lost Item Report Submitted";
                 resultSection.style.display = "none";
                 return;
             }
@@ -91,11 +94,11 @@ if (typeof document !== "undefined") {
             lostLocation.selectedIndex = 0;
             confirmInfo.checked = false;
 
-            reporterNameError.textContent = "Select where the item was lost.";
-            reporterEmailError.textContent = "Confirm that the information is correct.";
-            itemDescriptionError.textContent = "Enter a valid name.";
-            lostLocationError.textContent = "Enter a valid email address.";
-            confirmInfoError.textContent = "Enter at least 5 characters.";
+            reporterNameError.textContent = "Enter a valid name.";
+            reporterEmailError.textContent = "Enter a valid email address.";
+            itemDescriptionError.textContent = "Enter at least 5 characters.";
+            lostLocationError.textContent = "Select where the item was lost.";
+            confirmInfoError.textContent = "Confirm that the information is correct.";
 
             resultHeading.textContent = "Lost Item Report Submitted";
             resultDetails.textContent = "No details available.";
